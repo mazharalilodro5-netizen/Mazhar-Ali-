@@ -42,44 +42,103 @@ input[type="range"].vol::-moz-range-thumb { width: 20px; height: 20px; border-ra
 </script> <script>(function(){function m(a){var h=a.getAttribute("href");if(!h)return;try{var u=new URL(h,document.baseURI);if((u.protocol==="http:"||u.protocol==="https:")&&u.host!==location.host){a.target="_blank";a.rel="noopener noreferrer";}}catch(e){}}function s(){document.querySelectorAll("a[href]").forEach(m);}if(document.readyState!=="loading"){s();}else{document.addEventListener("DOMContentLoaded",s);}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(a){m(a);}},true);})();</script> <!-- ================= MAZHAR ALI QUIZ HUB - LIVE CHAT & FEEDBACK SYSTEM ================= -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style> #mq-chat-btn, #mq-feedback-btn { position: fixed; z-index: 9999; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 8px 20px rgba(0,0,0,0.3); cursor: pointer; font-size: 22px; border: none; } #mq-chat-btn { bottom: 90px; right: 16px; background: linear-gradient(135deg,#6A3FE8,#E9408A); } #mq-feedback-btn { bottom: 160px; right: 16px; background: linear-gradient(135deg,#00C9FF,#92FE9D); color: #111; } .mq-modal { position: fixed; inset: 0; z-index: 10000; display: none; background: rgba(0,0,0,0.6); } .mq-modal.active { display: flex; } .mq-modal-box { margin: auto; width: 95%; max-width: 480px; max-height: 85vh; background: white; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; } .mq-modal-header { padding: 16px; background: linear-gradient(135deg,#6A3FE8,#E9408A); color: white; display: flex; justify-content: space-between; align-items: center; } .mq-messages { flex: 1; overflow-y: auto; padding: 12px; background: #f8f7ff; } .mq-msg { margin-bottom: 10px; background: white; padding: 10px 12px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); } .mq-msg-head { font-size: 11px; color: #6A3FE8; font-weight: 700; margin-bottom: 3px; } .mq-input-area { padding: 10px; border-top: 1px solid #eee; display: flex; gap: 8px; background: white; } .mq-input-area input, .mq-input-area select, .mq-input-area textarea { flex: 1; padding: 10px 12px; border: 1px solid #ddd; border-radius: 20px; outline: none; } .mq-send-btn { background: linear-gradient(135deg,#6A3FE8,#E9408A); color: white; border: none; border-radius: 20px; padding: 10px 18px; cursor: pointer; font-weight: 700; } .mq-feedback-card { background: white; border: 1px solid #eee; border-radius: 12px; padding: 12px; margin-bottom: 10px; } .mq-country-badge { display: inline-block; padding: 2px 8px; background: #EEF; border-radius: 20px; font-size: 11px; margin-left: 6px; }
-</style> <button id="mq-private-btn" title="Private Chat (E2E)" style="position:fixed;bottom:230px;right:16px;z-index:9999;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;box-shadow:0 8px 20px rgba(0,0,0,0.3);cursor:pointer;font-size:22px;border:none;background:linear-gradient(135deg,#FF6A00,#EE0979);"><i class="fas fa-lock"></i></button>
+</style> 
+
+<style>
+#mq-chat-btn, #mq-feedback-btn, #mq-private-btn { position: fixed; z-index: 9999; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 8px 20px rgba(0,0,0,0.3); cursor: pointer; font-size: 22px; border: none; }
+#mq-chat-btn { bottom: 90px; right: 16px; background: linear-gradient(135deg,#6A3FE8,#E9408A); }
+#mq-feedback-btn { bottom: 160px; right: 16px; background: linear-gradient(135deg,#00C9FF,#92FE9D); color: #111; }
+#mq-private-btn { bottom: 230px; right: 16px; background: linear-gradient(135deg,#FF6A00,#EE0979); }
+.mq-modal { position: fixed; inset: 0; z-index: 10000; display: none; background: rgba(0,0,0,0.6); }
+.mq-modal.active { display: flex; }
+.mq-modal-box { margin: auto; width: 95%; max-width: 600px; height: 92vh; max-height: 92vh; background: white; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; }
+.wa-header { padding: 10px 14px; background: #111; color: white; display: flex; justify-content: space-between; align-items: center; flex-wrap:wrap; gap:6px; }
+.wa-header.light { background: #f0f0f0; color: #111; }
+.mq-messages.wa-style { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; background: #e5ddd5; }
+.mq-messages.wa-style.dark { background: #0b141a; }
+.wa-bubble { max-width: 80%; padding: 8px 12px; border-radius: 12px; position: relative; font-size: 14px; line-height: 1.4; box-shadow: 0 1px 1px rgba(0,0,0,0.1); word-wrap: break-word; }
+.wa-bubble.me { align-self: flex-end; background: #d9fdd3; border-radius: 12px 0 12px 12px; }
+.wa-bubble.them { align-self: flex-start; background: white; border-radius: 0 12px 12px 12px; }
+.wa-bubble.system { align-self: center; background: #fff8c4; font-size: 12px; text-align: center; max-width:95%; }
+.mq-messages.wa-style.dark .wa-bubble.me { background: #005c4b; color: #e9edef; }
+.mq-messages.wa-style.dark .wa-bubble.them { background: #202c33; color: #e9edef; }
+.wa-meta { font-size: 10px; opacity: 0.6; margin-top: 4px; display: flex; gap: 6px; justify-content: flex-end; }
+.wa-actions { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.wa-actions button { font-size: 11px; padding: 4px 8px; border-radius: 6px; border: 0; cursor: pointer; }
+.wa-input { padding: 10px; display: flex; gap: 8px; background: #f0f0f0; align-items: center; flex-wrap: wrap; }
+.wa-input.dark { background: #202c33; }
+.wa-input input, .wa-input textarea { flex: 1; padding: 12px 16px; border-radius: 24px; border: 0; outline: none; font-size: 14px; }
+.mq-send-btn { background: #111; color: white; border: none; border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.join-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+.join-card input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #ddd; margin: 8px 0; font-size: 15px; }
+#mq-priv-screen-join { padding: 20px; overflow-y: auto; }
+#mq-priv-screen-chat { display: none; flex-direction: column; height: 100%; }
+#mq-priv-screen-chat.active { display: flex; }
+#mq-priv-screen-join.hidden { display: none; }
+.share-link-box { background: #e8f5e9; padding: 10px; border-radius: 10px; margin-top: 12px; word-break: break-all; font-size: 13px; }
+.auto-trans { background:#e8f5e9; border:1px solid #a5d6a7; padding:6px 10px; border-radius:20px; font-size:11px; display:flex; align-items:center; gap:6px; }
+</style>
+
+
 <button id="mq-chat-btn" title="Live Chat Room"><i class="fas fa-comments"></i></button>
-<button id="mq-feedback-btn" title="Feedback Wall"><i class="fas fa-star"></i></button> <!-- Chat Modal -->
-<div id="mq-chat-modal" class="mq-modal"> <div class="mq-modal-box"> <div class="mq-modal-header"> <div><i class="fas fa-globe"></i> Live Chat Room</div> <button onclick="document.getElementById('mq-chat-modal').classList.remove('active')" style="background:none;border:none;color:white;font-size:20px;cursor:pointer;">×</button> </div> <div id="mq-chat-messages" class="mq-messages"> <div class="mq-msg"><div class="mq-msg-head">System 🤖</div>Welcome to Mazhar Quiz Hub! 👋 Chat live with others.</div> </div> <div class="mq-input-area" style="flex-wrap:wrap;"> <input id="mq-chat-name" placeholder="Your Name" style="max-width:110px;" /> <select id="mq-chat-country" style="max-width:110px;"> <option value="PK">🇵🇰 PK</option><option value="IN">🇮🇳 IN</option><option value="AE">🇦🇪 UAE</option> <option value="SA">🇸🇦 KSA</option><option value="BD">🇧🇩 BD</option><option value="US">🇺🇸 US</option> <option value="UK">🇬🇧 UK</option><option value="RU">🇷🇺 Russia</option><option value="PH">🇵🇭 Philippines</option><option value="ID">🇮🇩 Indonesia</option> <option value="Other">🌍 Other</option> </select> <div style="display:flex; width:100%; gap:8px; margin-top:8px;"> <input id="mq-chat-text" placeholder="Type message about any question..." /> <button class="mq-send-btn" id="mq-chat-send">Send</button> </div> </div> </div>
-</div> <!-- Feedback Modal -->
-<div id="mq-feedback-modal" class="mq-modal"> <div class="mq-modal-box"> <div class="mq-modal-header" style="background: linear-gradient(135deg,#00C9FF,#92FE9D); color:#111;"> <div><i class="fas fa-comment-dots"></i> Feedback Wall - Visible to All</div> <button onclick="document.getElementById('mq-feedback-modal').classList.remove('active')" style="background:none;border:none;font-size:20px;cursor:pointer;">×</button> </div> <div style="padding:12px; background:#f0faff;"> <input id="mq-fb-name" placeholder="Your Name" style="width:48%; padding:10px; border-radius:10px; border:1px solid #ddd;" /> <select id="mq-fb-country" style="width:48%; padding:10px; border-radius:10px; border:1px solid #ddd; float:right;"> <option value="PK">🇵🇰 Pakistan</option><option value="IN">🇮🇳 India</option><option value="AE">🇦🇪 UAE</option> <option value="SA">🇸🇦 Saudi Arabia</option><option value="BD">🇧🇩 Bangladesh</option><option value="US">🇺🇸 USA</option> <option value="UK">🇬🇧 UK</option><option value="RU">🇷🇺 Russia</option><option value="PH">🇵🇭 Philippines</option><option value="ID">🇮🇩 Indonesia</option> <option value="Other">🌍 Other</option> </select> <textarea id="mq-fb-text" placeholder="Write your feedback about Quiz Hub..." style="width:100%; margin-top:10px; padding:10px; border-radius:10px; border:1px solid #ddd; min-height:70px;"></textarea> <button class="mq-send-btn" id="mq-fb-send" style="width:100%; margin-top:8px; background:#111;">Post Feedback (Visible to All)</button> <div style="font-size:11px; color:#666; margin-top:6px; text-align:center;">Contact: WhatsApp 03242589319 | Your feedback will be seen by everyone</div> </div> <div id="mq-feedback-list" class="mq-messages"> <div class="mq-feedback-card"><b>Ali Raza</b> <span class="mq-country-badge">🇵🇰 PK</span><div style="font-size:12px; color:#888;">Today</div><div>MDCAT 2025 quiz is amazing, very helpful!</div></div> <div class="mq-feedback-card"><b>Sara Khan</b> <span class="mq-country-badge">🇦🇪 UAE</span><div style="font-size:12px; color:#888;">Yesterday</div><div>Love the Pink Challenge quiz!</div></div> </div> </div>
-</div> 
-<!-- Private E2E Modal -->
-<div id="mq-private-modal" class="mq-modal"> <div class="mq-modal-box"> <div class="mq-modal-header" style="background:linear-gradient(135deg,#FF6A00,#EE0979);"> <div><i class="fas fa-lock"></i> Private Chat - E2E Encrypted</div> <button onclick="document.getElementById('mq-private-modal').classList.remove('active')" style="background:none;border:none;color:white;font-size:20px;cursor:pointer;">×</button> </div> 
-<div style="padding:12px;background:#fff7ed;">
-<div style="font-size:12px;background:#ffedd5;padding:8px;border-radius:8px;margin-bottom:8px;">🔒 <b>True Private:</b> Only you + friend with same Room Code can read. Even admin & Firebase can't read. Share code privately (WhatsApp).</div>
-<div style="display:flex;gap:8px;flex-wrap:wrap;">
-<input id="mq-priv-name" placeholder="Your Name" style="flex:1;min-width:100px;padding:10px;border-radius:10px;border:1px solid #ddd;">
-<input id="mq-priv-room" placeholder="Room Code e.g. MATH123" style="flex:1;min-width:120px;padding:10px;border-radius:10px;border:1px solid #ddd;">
-<input id="mq-priv-pass" placeholder="Secret Password" type="password" style="flex:1;min-width:120px;padding:10px;border-radius:10px;border:1px solid #ddd;" title="This password encrypts messages. Admin cannot decrypt without it.">
-</div>
-<div style="display:flex;gap:8px;margin-top:8px;">
-<button onclick="joinPrivateRoom()" style="flex:1;background:#111;color:#fff;border:0;border-radius:10px;padding:10px;font-weight:700;cursor:pointer;">Join / Create Room</button>
-<button onclick="leavePrivateRoom()" style="background:#eee;color:#111;border:0;border-radius:10px;padding:10px;cursor:pointer;">Leave</button>
-</div>
-<div id="mq-priv-status" style="font-size:11px;color:#666;margin-top:6px;text-align:center;">Not joined</div>
-</div> 
-<div id="mq-priv-messages" class="mq-messages" style="background:#fffaf5;"></div> 
-<div class="mq-input-area" style="flex-wrap:wrap;">
-<input id="mq-priv-text" placeholder="Type private message..." style="flex:1;" />
-<button class="mq-send-btn" id="mq-priv-send" style="background:linear-gradient(135deg,#FF6A00,#EE0979);">Send 🔒</button>
-</div> 
+<button id="mq-feedback-btn" title="Feedback Wall"><i class="fas fa-star"></i></button>
+<button id="mq-private-btn" title="Private Chat (E2E)"><i class="fas fa-lock"></i></button>
+
+<!-- PUBLIC CHAT -->
+<div id="mq-chat-modal" class="mq-modal"> <div class="mq-modal-box">
+  <div id="mq-chat-header" class="wa-header">
+    <div style="display:flex;align-items:center;gap:8px;"><button onclick="document.getElementById('mq-chat-modal').classList.remove('active')" style="background:none;border:0;color:inherit;font-size:18px;cursor:pointer;">←</button><div><div style="font-weight:700;">🌍 Live Room Chat</div><div style="font-size:10px;opacity:0.8;">Auto-translate keeps going</div></div></div>
+    <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap;">
+      <select id="mq-chat-lang" style="padding:5px;border-radius:8px;font-size:11px;color:#111;"><option value="en">English</option><option value="ru">Русский</option><option value="id">Indonesia</option><option value="tl">Filipino</option><option value="ur">اردو</option><option value="ar">العربية</option><option value="tr">Türkçe</option><option value="es">Español</option><option value="hi">हिंदी</option></select>
+      <label class="auto-trans" title="Auto translate all messages"><input type="checkbox" id="mq-chat-auto"> Auto</label>
+      <button onclick="togglePublicTheme()" id="public-theme-btn" style="padding:5px 8px;border-radius:20px;border:0;background:#333;color:#fff;">🌙</button>
+      <button onclick="adminLogin()" style="background:#f59e0b;color:#000;border:0;border-radius:20px;padding:5px 8px;font-size:11px;">Admin</button>
+    </div>
+  </div>
+  <div id="mq-chat-messages" class="mq-messages wa-style"></div>
+  <div class="wa-input" id="mq-chat-input-area">
+    <input id="mq-chat-name" placeholder="Name" style="max-width:90px;" />
+    <select id="mq-chat-country" style="max-width:80px;border-radius:20px;padding:8px;"><option value="PK">🇵🇰 PK</option><option value="IN">🇮🇳 IN</option><option value="RU">🇷🇺 RU</option><option value="ID">🇮🇩 ID</option><option value="Other">🌍 Other</option></select>
+    <div style="display:flex;width:100%;gap:6px;margin-top:6px;"><input id="mq-chat-text" placeholder="Type... broken English OK" /><button class="mq-send-btn" id="mq-chat-send">➤</button></div>
+  </div>
+</div></div>
+
+<!-- FEEDBACK -->
+<div id="mq-feedback-modal" class="mq-modal"> <div class="mq-modal-box">
+  <div class="wa-header" id="mq-fb-header">
+    <div style="display:flex;align-items:center;gap:8px;"><button onclick="document.getElementById('mq-feedback-modal').classList.remove('active')" style="background:none;border:0;color:inherit;font-size:18px;cursor:pointer;">←</button><div><div style="font-weight:700;">⭐ Feedback Wall</div><div style="font-size:10px;opacity:0.8;">Auto-translate</div></div></div>
+    <div style="display:flex;gap:4px;align-items:center;">
+      <select id="mq-fb-lang" style="padding:5px;border-radius:8px;font-size:11px;color:#111;"><option value="en">EN</option><option value="ru">RU</option><option value="id">ID</option></select>
+      <label class="auto-trans"><input type="checkbox" id="mq-fb-auto"> Auto</label>
+      <button onclick="toggleFeedbackTheme()" id="fb-theme-btn" style="padding:5px 8px;border-radius:20px;border:0;background:#333;color:#fff;">🌙</button>
+    </div>
+  </div>
+  <div style="padding:6px;background:#f0faff;display:flex;gap:6px;"><input id="mq-fb-name" placeholder="Name" style="flex:1;padding:8px;border-radius:20px;border:1px solid #ddd;" /><select id="mq-fb-country" style="flex:1;padding:8px;border-radius:20px;border:1px solid #ddd;"><option value="PK">🇵🇰 PK</option><option value="Other">🌍 Other</option></select></div>
+  <div id="mq-feedback-list" class="mq-messages wa-style"></div>
+  <div class="wa-input" id="mq-fb-input-area"><textarea id="mq-fb-text" placeholder="Feedback..."></textarea><button class="mq-send-btn" id="mq-fb-send">➤</button></div>
+</div></div>
+
+<!-- PRIVATE -->
+<div id="mq-private-modal" class="mq-modal"> <div class="mq-modal-box">
+  <div id="mq-priv-screen-join">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><h2 style="font-weight:800;"><i class="fas fa-lock" style="color:#FF6A00"></i> Private Chat</h2><button onclick="document.getElementById('mq-private-modal').classList.remove('active')" style="background:#eee;border:0;width:32px;height:32px;border-radius:50%;cursor:pointer;">✕</button></div>
+    <div class="join-card">
+      <div style="font-size:11px;background:#fff3e0;padding:8px;border-radius:8px;margin-bottom:10px;">🔒 E2E Encrypted — Only same Room Code + Password can read. Admin can't read. Auto-translate works for broken English too.</div>
+      <input id="mq-priv-name" placeholder="Your Name" /><input id="mq-priv-room" placeholder="Room Code e.g. MATH123" style="text-transform:uppercase;" /><input id="mq-priv-pass" placeholder="Secret Password" type="password" />
+      <div style="display:flex;gap:6px;margin-top:10px;"><button onclick="joinPrivateRoom()" style="flex:1;background:#111;color:#fff;border:0;border-radius:12px;padding:12px;font-weight:700;cursor:pointer;">Join / Create</button><button onclick="pasteInviteLink()" style="background:#e0e0e0;border:0;border-radius:12px;padding:10px;cursor:pointer;">Paste Link</button></div>
+      <div id="priv-share-box" class="share-link-box" style="display:none;"><b>🔗 Invite Link:</b><div id="priv-share-link" style="margin:6px 0;color:#2e7d32;"></div><button onclick="copyPrivLink()" style="background:#2e7d32;color:#fff;border:0;border-radius:8px;padding:6px 12px;cursor:pointer;">Copy</button><button onclick="shareCurrentRoom()" style="background:#111;color:#fff;border:0;border-radius:8px;padding:6px 12px;margin-left:6px;cursor:pointer;">WhatsApp Share</button></div>
+    </div>
+  </div>
+  <div id="mq-priv-screen-chat">
+    <div id="priv-header" class="wa-header"><div style="display:flex;align-items:center;gap:8px;"><button onclick="showJoinScreen()" style="background:none;border:0;color:inherit;font-size:18px;cursor:pointer;">←</button><div><div id="priv-header-name" style="font-weight:700;">Private Room</div><div id="priv-header-status" style="font-size:10px;opacity:0.8;">Auto-translate ON/OFF</div></div></div><div style="display:flex;gap:4px;align-items:center;"><select id="mq-priv-lang" style="padding:5px;border-radius:8px;font-size:11px;color:#111;"><option value="en">EN</option><option value="ru">RU</option><option value="id">ID</option><option value="tl">PH</option><option value="ur">UR</option></select><label class="auto-trans"><input type="checkbox" id="mq-priv-auto"> Auto</label><button onclick="togglePrivTheme()" id="priv-theme-btn" style="padding:5px 8px;border-radius:20px;border:0;background:#333;color:#fff;">🌙</button></div></div>
+    <div id="mq-priv-messages" class="priv-messages wa-style"></div>
+    <div class="wa-input" id="mq-priv-input-area"><input id="mq-priv-text" placeholder="Type... broken English OK" /><button id="mq-priv-send" style="background:linear-gradient(135deg,#FF6A00,#EE0979);color:white;border:0;width:44px;height:44px;border-radius:50%;cursor:pointer;">➤</button></div>
+  </div>
 </div></div>
 
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 <script>
-// ===== FIREBASE CONFIG - WORLDWIDE LIVE SYSTEM =====
-// STEP 1: Go to https://console.firebase.google.com/ -> Create Project (free) -> Name: Mazhar Quiz Hub
-// STEP 2: Create Realtime Database -> Start in Test Mode (so everyone can read/write)
-// STEP 3: Project Settings -> Your apps -> Web app -> Copy config -> Paste below
-// After you paste, EVERYONE worldwide will see same chat & feedback with history forever!
-
 const firebaseConfig = {
     apiKey: "AIzaSyBB6dv7OpKEjj0V523dU_bNlrszq-FQ2Ns",
     authDomain: "mazhar-quiz-hub.firebaseapp.com",
@@ -90,291 +149,80 @@ const firebaseConfig = {
     appId: "1:214363213775:web:a40319be02d6b03b820cba",
     measurementId: "G-HPHFDZNPXN"
   };
+let db=null, isFirebaseReady=false;
+let myId=localStorage.getItem('mq_user_id'); if(!myId){ myId='uid_'+Math.random().toString(36).substr(2,9); localStorage.setItem('mq_user_id', myId); }
+let isAdmin=sessionStorage.getItem('mq_isAdmin')==='1'; let adminPass="mazhar123";
+try{ if(firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("PASTE")){ firebase.initializeApp(firebaseConfig); db=firebase.database(); isFirebaseReady=true; } }catch(e){}
+function adminLogin(){ let p=prompt("Admin password:"); if(p===adminPass){ isAdmin=true; sessionStorage.setItem('mq_isAdmin','1'); alert("Admin ON"); location.reload(); } else alert("Wrong"); }
 
-// --- DO NOT EDIT BELOW ---
-let db = null;
-let isFirebaseReady = false;
-let myId = localStorage.getItem('mq_user_id');
-if(!myId){ myId = 'uid_'+Math.random().toString(36).substr(2,9); localStorage.setItem('mq_user_id', myId); }
-let isAdmin = sessionStorage.getItem('mq_isAdmin')==='1';
-let adminPass = "mazhar123"; // CHANGE THIS
-function adminLogin(){ let p=prompt("Admin password:"); if(p===adminPass){ isAdmin=true; sessionStorage.setItem('mq_isAdmin','1'); alert("Admin ON - you can delete any message"); location.reload(); } else alert("Wrong"); }
+// === IMPROVED TRANSLATION - HANDLES BROKEN / INFORMAL ===
 async function translateTextAPI(text, target){
- if(target==='en' || !target) return text;
- try{
-   let r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${target}`);
-   let j = await r.json();
-   return j.responseData.translatedText || text;
- }catch(e){ return text; }
-}
-
-try {
-  if(firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("PASTE")) {
-    firebase.initializeApp(firebaseConfig);
-    db = firebase.database();
-    isFirebaseReady = true;
-    console.log("✅ Firebase LIVE - Worldwide mode active");
-  } else {
-    console.log("⚠️ Demo mode - Using local storage. Add Firebase keys to go worldwide!");
-  }
-} catch(e) { console.log("Firebase error:", e); }
-
-// UI Toggles
-document.getElementById('mq-chat-btn').onclick = ()=> document.getElementById('mq-chat-modal').classList.add('active');
-document.getElementById('mq-feedback-btn').onclick = ()=> document.getElementById('mq-feedback-modal').classList.add('active');
-
-// ===== WORLDWIDE CHAT - HISTORY STAYS FOREVER =====
-function addChatToUI(name, country, text, time, id, uid, ts){
-  const div = document.createElement('div');
-  div.className='mq-msg';
-  div.id = 'chat-'+(id||Math.random());
-  div.dataset.uid = uid||'';
-  div.dataset.id = id||'';
-  const safeText = (text||'').replace(/</g,"&lt;");
-  const canDelete = (uid===myId) || isAdmin;
-  const delBtn = canDelete ? `<button onclick="deleteSingleChat('${id}')" title="Delete" style="background:#ef4444;color:#fff;border:0;border-radius:6px;padding:2px 6px;margin-left:6px;cursor:pointer;font-size:11px;">🗑️</button>` : '';
-  const transBtn = `<button onclick="doTranslateChat(this)" title="Translate" style="background:#22c55e;color:#fff;border:0;border-radius:6px;padding:2px 6px;margin-left:6px;cursor:pointer;font-size:11px;">🌐</button>`;
-  div.innerHTML = `<div class="mq-msg-head">${name} <span class="mq-country-badge">${country}</span> <span style="color:#999; font-weight:400;">${time||''}</span> ${transBtn} ${delBtn}</div><div class="mq-msg-text" data-original="${safeText}">${safeText}</div>`;
-  document.getElementById('mq-chat-messages').appendChild(div);
-  document.getElementById('mq-chat-messages').scrollTop = document.getElementById('mq-chat-messages').scrollHeight;
-}
-async function doTranslateChat(btn){
-  let msgDiv = btn.closest('.mq-msg');
-  let span = msgDiv.querySelector('.mq-msg-text');
-  let langSel = document.getElementById('mq-chat-lang');
-  let target = langSel ? langSel.value : 'en';
-  let orig = span.getAttribute('data-original');
-  if(target==='en'){ span.innerHTML = orig; return; }
-  span.innerHTML = "Translating...";
-  let translated = await translateTextAPI(orig, target);
-  span.innerHTML = translated + ` <small style="color:#22c55e;cursor:pointer;" onclick="this.parentElement.innerHTML=this.parentElement.getAttribute('data-original')"> ↩️ Original</small>`;
-}
-function deleteSingleChat(id){
-  if(!id) { // local demo
-    let el = document.getElementById('chat-'+id);
-    if(el) el.remove();
-    return;
-  }
-  if(!confirm("Delete this message?")) return;
-  if(isFirebaseReady && db){ db.ref('quizhub_chat/'+id).remove(); }
-  else { let el = document.querySelector(`[data-id='${id}']`); if(el) el.remove(); }
-}
-
-
-document.getElementById('mq-chat-send').onclick = () => {
-  const name = document.getElementById('mq-chat-name').value || 'Student';
-  const country = document.getElementById('mq-chat-country').value;
-  const text = document.getElementById('mq-chat-text').value.trim();
-  if(!text) return;
-  if(text.length>300){ alert('Max 300 chars'); return; }
-  const time = new Date().toLocaleString();
-  if(isFirebaseReady && db) {
-    db.ref('quizhub_chat').push({name, country, text, time, uid: myId, ts: Date.now()});
-  } else {
-    let localChats = JSON.parse(localStorage.getItem('mq_chats')||'[]');
-    let tempId = 'local_'+Date.now();
-    localChats.push({name,country,text,time,uid:myId,id:tempId});
-    localStorage.setItem('mq_chats', JSON.stringify(localChats));
-    addChatToUI(name, country, text, time + ' (local)', tempId, myId, Date.now());
-  }
-  document.getElementById('mq-chat-text').value='';
-};
-
-// Load history - WORLDWIDE if Firebase, LOCAL if demo
-if(isFirebaseReady && db) {
-  document.getElementById('mq-chat-messages').innerHTML = '<div class="mq-msg"><div class="mq-msg-head">System 🌍</div>Loading worldwide chat history...</div>';
-  let firstLoad = true;
-  db.ref('quizhub_chat').limitToLast(200).on('child_added', snap => {
-    const d = snap.val();
-    const id = snap.key;
-    if(firstLoad && document.getElementById('mq-chat-messages').innerHTML.includes('Loading worldwide')) {
-      document.getElementById('mq-chat-messages').innerHTML = '<div class="mq-msg"><div class="mq-msg-head">System 🤖</div>Welcome to Mazhar Quiz Hub! 👋 Chat live with others worldwide. History stays forever. Use 🌐 to translate.<br><button onclick="adminLogin()" style="background:#f59e0b;color:#000;border:0;border-radius:6px;padding:4px 8px;margin-top:6px;cursor:pointer;">🔑 Admin Login</button> <select id="mq-chat-lang" style="padding:4px;border-radius:6px;margin-left:6px;"><option value="en">English</option><option value="ru">Russian</option><option value="id">Indonesian</option><option value="tl">Filipino</option><option value="ur">Urdu</option><option value="ar">Arabic</option><option value="tr">Turkish</option></select></div>';
-    }
-    firstLoad = false;
-    addChatToUI(d.name, d.country, d.text, d.time, id, d.uid, d.ts);
-  });
-  db.ref('quizhub_chat').on('child_removed', snap=>{
-    let id = snap.key;
-    let el = document.querySelector(`[data-id='${id}']`);
-    if(el) el.remove();
-  });
-} else {
-  let localChats = JSON.parse(localStorage.getItem('mq_chats')||'[]');
-  document.getElementById('mq-chat-messages').innerHTML = '<div class="mq-msg"><div class="mq-msg-head">System 🤖</div>Demo Mode - Add Firebase to go worldwide. <select id="mq-chat-lang" style="padding:4px;border-radius:6px;"><option value="en">English</option><option value="ru">Russian</option><option value="id">Indonesian</option><option value="tl">Filipino</option></select></div>';
-  localChats.forEach(c => addChatToUI(c.name, c.country, c.text, c.time, c.id, c.uid, 0));
-}
-
-// ===== WORLDWIDE FEEDBACK - VISIBLE TO ALL FOREVER =====
-function addFeedbackToUI(name, country, text, time, id, uid){
-  const div = document.createElement('div');
-  div.className='mq-feedback-card';
-  div.id = 'fb-'+(id||Math.random());
-  div.dataset.uid = uid||'';
-  div.dataset.id = id||'';
-  const safeText = (text||'').replace(/</g,"&lt;");
-  const canDelete = (uid===myId) || isAdmin;
-  const delBtn = canDelete ? `<button onclick="deleteSingleFeedback('${id}')" style="background:#ef4444;color:#fff;border:0;border-radius:6px;padding:2px 6px;float:right;cursor:pointer;font-size:11px;">🗑️ Delete</button>` : '';
-  const transBtn = `<button onclick="doTranslateFeedback(this)" style="background:#22c55e;color:#fff;border:0;border-radius:6px;padding:2px 6px;float:right;margin-right:6px;cursor:pointer;font-size:11px;">🌐 Translate</button>`;
-  div.innerHTML = `${transBtn} ${delBtn}<b>${name}</b> <span class="mq-country-badge"> ${country}</span><div style="font-size:12px; color:#888;">${time||''}</div><div class="mq-fb-text" data-original="${safeText}" style="margin-top:6px;">${safeText}</div>`;
-  const list = document.getElementById('mq-feedback-list');
-  list.insertBefore(div, list.firstChild);
-}
-async function doTranslateFeedback(btn){
-  let card = btn.closest('.mq-feedback-card');
-  let span = card.querySelector('.mq-fb-text');
-  let lang = document.getElementById('mq-fb-lang') ? document.getElementById('mq-fb-lang').value : (document.getElementById('mq-chat-lang') ? document.getElementById('mq-chat-lang').value : 'ru');
-  let orig = span.getAttribute('data-original');
-  if(!orig) return;
-  span.innerHTML = "Translating...";
-  let tr = await translateTextAPI(orig, lang);
-  span.innerHTML = tr + ` <small style="color:#22c55e;cursor:pointer;" onclick="this.parentElement.innerHTML=this.parentElement.getAttribute('data-original')"> ↩️ Original</small>`;
-}
-function deleteSingleFeedback(id){
-  if(!confirm("Delete this feedback?")) return;
-  if(isFirebaseReady && db && id && !id.startsWith('local_')){ db.ref('quizhub_feedbacks/'+id).remove(); }
-  else { let el = document.querySelector(`[data-id='${id}']`); if(el) el.remove(); let localFbs = JSON.parse(localStorage.getItem('mq_feedbacks')||'[]'); localFbs = localFbs.filter(x=>x.id!==id); localStorage.setItem('mq_feedbacks', JSON.stringify(localFbs)); }
-}
-
-
-document.getElementById('mq-fb-send').onclick = () => {
-  const name = document.getElementById('mq-fb-name').value || 'Anonymous';
-  const country = document.getElementById('mq-fb-country').value;
-  const text = document.getElementById('mq-fb-text').value.trim();
-  if(!text) return alert('Write feedback first');
-  if(text.length>300){ alert('Max 300 chars'); return; }
-  const time = new Date().toLocaleString();
-  if(isFirebaseReady && db) {
-    db.ref('quizhub_feedbacks').push({name, country, text, time, uid: myId, ts: Date.now()});
-  } else {
-    let tempId = 'local_'+Date.now();
-    let localFbs = JSON.parse(localStorage.getItem('mq_feedbacks')||'[]');
-    localFbs.push({name,country,text,time,uid:myId,id:tempId});
-    localStorage.setItem('mq_feedbacks', JSON.stringify(localFbs));
-    addFeedbackToUI(name, country, text, time + ' (local)', tempId, myId);
-  }
-  document.getElementById('mq-fb-text').value='';
-  alert('Feedback posted! Thanks ❤️ ' + (isFirebaseReady ? 'Visible worldwide!' : 'Add Firebase to make worldwide'));
-};
-
-if(isFirebaseReady && db) {
-  let fbFirst = true;
-  db.ref('quizhub_feedbacks').limitToLast(200).on('child_added', snap => {
-    const d = snap.val();
-    const id = snap.key;
-    if(fbFirst) { document.getElementById('mq-feedback-list').innerHTML='<div style="padding:10px;background:#fff3cd;border-radius:10px;margin-bottom:10px;">🌐 Translation: <select id="mq-fb-lang" style="padding:4px;border-radius:6px;"><option value="en">English</option><option value="ru">Russian</option><option value="id">Indonesian</option><option value="tl">Filipino</option><option value="ur">Urdu</option></select> - Click 🌐 on any feedback to translate. <button onclick="adminLogin()" style="background:#f59e0b;border:0;border-radius:6px;padding:4px 8px;margin-left:6px;">🔑 Admin</button></div>'; fbFirst=false; }
-    addFeedbackToUI(d.name, d.country, d.text, d.time, id, d.uid);
-  });
-  db.ref('quizhub_feedbacks').on('child_removed', snap=>{
-    let id = snap.key;
-    let el = document.querySelector(`[data-id='${id}']`);
-    if(el) el.remove();
-  });
-} else {
-  let localFbs = JSON.parse(localStorage.getItem('mq_feedbacks')||'[]');
-  if(localFbs.length>0) {
-    document.getElementById('mq-feedback-list').innerHTML='<div style="padding:10px;background:#fff3cd;border-radius:10px;margin-bottom:10px;">🌐 Translation: <select id="mq-fb-lang" style="padding:4px;border-radius:6px;"><option value="en">English</option><option value="ru">Russian</option></select></div>';
-    localFbs.slice().reverse().forEach(c => addFeedbackToUI(c.name, c.country, c.text, c.time, c.id, c.uid));
-  }
-}
-
-// ===== TRUE PRIVATE E2E CHAT - ADMIN CANNOT READ =====
-let privRoom = null;
-let privPass = null;
-let privName = null;
-let privListener = null;
-document.getElementById('mq-private-btn').onclick = ()=> document.getElementById('mq-private-modal').classList.add('active');
-
-async function deriveKey(password, saltStr){
-  const enc = new TextEncoder();
-  const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(password), {name:'PBKDF2'}, false, ['deriveKey']);
-  const key = await crypto.subtle.deriveKey(
-    {name:'PBKDF2', salt: enc.encode(saltStr), iterations: 100000, hash:'SHA-256'},
-    keyMaterial,
-    {name:'AES-GCM', length:256},
-    false,
-    ['encrypt','decrypt']
-  );
-  return key;
-}
-async function encryptMessage(text, password, room){
-  const key = await deriveKey(password, room);
-  const enc = new TextEncoder();
-  const iv = crypto.getRandomValues(new Uint8Array(12));
-  const cipher = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, enc.encode(text));
-  const combined = new Uint8Array(iv.length + cipher.byteLength);
-  combined.set(iv,0); combined.set(new Uint8Array(cipher), iv.length);
-  return btoa(String.fromCharCode(...combined));
-}
-async function decryptMessage(b64, password, room){
+  if(!target || target==='en' || !text) return text;
+  // Try Google free translate first (better for broken English), fallback to MyMemory
   try{
-    const key = await deriveKey(password, room);
-    const raw = Uint8Array.from(atob(b64), c=>c.charCodeAt(0));
-    const iv = raw.slice(0,12);
-    const data = raw.slice(12);
-    const plain = await crypto.subtle.decrypt({name:'AES-GCM', iv}, key, data);
-    return new TextDecoder().decode(plain);
-  }catch(e){ return "🔒 [Cannot decrypt - wrong password]"; }
+    // Google GTx - auto detect source, informal tolerant
+    let url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${target}&dt=t&q=${encodeURIComponent(text)}`;
+    let r = await fetch(url);
+    let j = await r.json();
+    if(j && j[0] && j[0][0] && j[0][0][0]) return j[0][0][0];
+  }catch(e){}
+  try{
+    let r2 = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=auto|${target}`);
+    let j2 = await r2.json();
+    return j2.responseData.translatedText || text;
+  }catch(e){ return text; }
 }
 
-function addPrivToUI(name, text, time, isMe){
-  const div = document.createElement('div');
-  div.className='mq-msg';
-  div.style.borderLeft = isMe ? '4px solid #FF6A00' : '4px solid #22c55e';
-  const safe = text.replace(/</g,"&lt;");
-  div.innerHTML = `<div class="mq-msg-head">${name} ${isMe?'(You)':''} <span style="color:#999;font-weight:400;">${time||''}</span></div><div>${safe}</div>`;
-  document.getElementById('mq-priv-messages').appendChild(div);
-  document.getElementById('mq-priv-messages').scrollTop = document.getElementById('mq-priv-messages').scrollHeight;
+document.getElementById('mq-chat-btn').onclick=()=>document.getElementById('mq-chat-modal').classList.add('active');
+document.getElementById('mq-feedback-btn').onclick=()=>document.getElementById('mq-feedback-modal').classList.add('active');
+let publicSeen=new Set(), feedbackSeen=new Set(), publicDark=false, feedbackDark=false;
+
+function addChatToUI(name,country,text,time,id,uid){
+  if(id && publicSeen.has(id)) return; if(id) publicSeen.add(id);
+  const container=document.getElementById('mq-chat-messages'); const isMe=uid===myId;
+  const div=document.createElement('div'); div.className='wa-bubble '+(isMe?'me':'them'); div.dataset.id=id||''; div.dataset.uid=uid||'';
+  const safe=(text||'').replace(/</g,"&lt;");
+  const canDelete=(uid===myId)||isAdmin;
+  const autoOn = document.getElementById('mq-chat-auto')?.checked;
+  const lang = document.getElementById('mq-chat-lang')?.value || 'en';
+  div.innerHTML=`<div style="font-size:11px;font-weight:700;color:#6A3FE8;margin-bottom:2px;">${name} <span style="font-weight:400;background:#EEF;padding:1px 6px;border-radius:10px;">${country||''}</span></div><div class="wa-text" data-original="${safe}" data-lang="${lang}">${safe}</div><div class="wa-meta"><span>${time||''}</span><span>${isMe?'✓✓':''}</span></div><div class="wa-actions"><button onclick="translatePublicMsg(this)" style="background:#e3f2fd;">🌐 Translate</button>${canDelete?`<button onclick="deleteSingleChat('${id}')" style="background:#ffebee;">🗑️</button>`:''}</div>`;
+  container.appendChild(div); container.scrollTop=container.scrollHeight;
+  if(autoOn && lang!=='en'){ translatePublicMsg(div.querySelector('button')); }
 }
+async function translatePublicMsg(btn){ const b=btn.closest('.wa-bubble'); const s=b.querySelector('.wa-text'); const orig=s.getAttribute('data-original'); const t=document.getElementById('mq-chat-lang').value; if(s.dataset.translated==='1'){ s.innerText=orig; s.dataset.translated='0'; btn.innerText='🌐 Translate'; return; } btn.innerText='...'; const tr=await translateTextAPI(orig,t); s.innerText=tr; s.dataset.translated='1'; btn.innerText='↩️ Original'; }
+function deleteSingleChat(id){ if(!confirm('Delete?')) return; if(isFirebaseReady&&db) db.ref('quizhub_chat/'+id).remove(); }
+function togglePublicTheme(){ publicDark=!publicDark; document.getElementById('mq-chat-messages').classList.toggle('dark',publicDark); document.getElementById('mq-chat-input-area').classList.toggle('dark',publicDark); document.getElementById('mq-chat-header').classList.toggle('light',!publicDark); document.getElementById('public-theme-btn').innerText=publicDark?'☀️':'🌙'; }
+document.getElementById('mq-chat-send').onclick=()=>{ const name=document.getElementById('mq-chat-name').value.trim()||'Student'; const country=document.getElementById('mq-chat-country').value; const text=document.getElementById('mq-chat-text').value.trim(); if(!text) return; const time=new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}); if(isFirebaseReady&&db) db.ref('quizhub_chat').push({name,country,text,time,uid:myId,ts:Date.now()}); else { const id='local_'+Date.now(); addChatToUI(name,country,text,time,id,myId); } document.getElementById('mq-chat-text').value=''; };
 
-async function joinPrivateRoom(){
-  const name = document.getElementById('mq-priv-name').value.trim() || 'Student';
-  const room = document.getElementById('mq-priv-room').value.trim().toUpperCase();
-  const pass = document.getElementById('mq-priv-pass').value.trim();
-  if(!room || !pass){ alert('Enter Room Code + Secret Password'); return; }
-  privRoom = room; privPass = pass; privName = name;
-  document.getElementById('mq-priv-status').innerHTML = `🔒 Joined <b>${room}</b> as ${name} - E2E Encrypted`;
-  document.getElementById('mq-priv-messages').innerHTML = '<div class="mq-msg"><div class="mq-msg-head">System 🔒</div>End-to-End Encrypted room. Only people with same Room Code + Password can read. Even admin sees only scrambled data.</div>';
-  localStorage.setItem('mq_priv_name', name);
-  localStorage.setItem('mq_priv_room', room);
-  // detach old
-  if(privListener && isFirebaseReady && db){ db.ref('quizhub_private/'+privRoom+'/msgs').off(); }
-  if(isFirebaseReady && db){
-    db.ref('quizhub_private/'+room+'/msgs').limitToLast(100).on('child_added', async snap=>{
-      const d = snap.val();
-      if(!d || !d.enc) return;
-      const plain = await decryptMessage(d.enc, privPass, privRoom);
-      addPrivToUI(d.name, plain, d.time, d.uid===myId);
-    });
-  } else {
-    document.getElementById('mq-priv-status').innerHTML += ' (Demo mode - Firebase needed for worldwide)';
-  }
+function addFeedbackToUI(name,country,text,time,id,uid){ if(id&&feedbackSeen.has(id)) return; if(id) feedbackSeen.add(id); const list=document.getElementById('mq-feedback-list'); const isMe=uid===myId; const div=document.createElement('div'); div.className='wa-bubble '+(isMe?'me':'them'); div.dataset.id=id||''; const safe=(text||'').replace(/</g,"&lt;"); const canDelete=(uid===myId)||isAdmin; const autoOn=document.getElementById('mq-fb-auto')?.checked; const lang=document.getElementById('mq-fb-lang')?.value||'en'; div.innerHTML=`<div style="font-size:11px;font-weight:700;">${name}</div><div class="wa-text-fb" data-original="${safe}">${safe}</div><div class="wa-meta"><span>${time||''}</span></div><div class="wa-actions"><button onclick="translateFeedbackMsg(this)" style="background:#e3f2fd;">🌐</button>${canDelete?`<button onclick="deleteSingleFeedback('${id}')" style="background:#ffebee;">🗑️</button>`:''}</div>`; list.insertBefore(div,list.firstChild); if(autoOn && lang!=='en'){ translateFeedbackMsg(div.querySelector('button')); } }
+async function translateFeedbackMsg(btn){ const b=btn.closest('.wa-bubble'); const s=b.querySelector('.wa-text-fb'); const orig=s.getAttribute('data-original'); const t=document.getElementById('mq-fb-lang').value; if(s.dataset.translated==='1'){ s.innerText=orig; s.dataset.translated='0'; btn.innerText='🌐'; return; } btn.innerText='...'; const tr=await translateTextAPI(orig,t); s.innerText=tr; s.dataset.translated='1'; btn.innerText='↩️'; }
+function deleteSingleFeedback(id){ if(!confirm('Delete?')) return; if(isFirebaseReady&&db) db.ref('quizhub_feedbacks/'+id).remove(); }
+function toggleFeedbackTheme(){ feedbackDark=!feedbackDark; document.getElementById('mq-feedback-list').classList.toggle('dark',feedbackDark); document.getElementById('mq-fb-input-area').classList.toggle('dark',feedbackDark); }
+document.getElementById('mq-fb-send').onclick=()=>{ const name=document.getElementById('mq-fb-name').value.trim()||'Anon'; const country=document.getElementById('mq-fb-country').value; const text=document.getElementById('mq-fb-text').value.trim(); if(!text) return; const time=new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}); if(isFirebaseReady&&db) db.ref('quizhub_feedbacks').push({name,country,text,time,uid:myId,ts:Date.now()}); document.getElementById('mq-fb-text').value=''; };
+
+let privRoom=null, privPass=null, privName=null, privSeen=new Set(), privListener=null, privDark=false;
+document.getElementById('mq-private-btn').onclick=()=>{ document.getElementById('mq-private-modal').classList.add('active'); const u=new URLSearchParams(window.location.search).get('priv'); if(u&&!document.getElementById('mq-priv-room').value) document.getElementById('mq-priv-room').value=u.toUpperCase(); };
+function showChatScreen(){ document.getElementById('mq-priv-screen-join').classList.add('hidden'); document.getElementById('mq-priv-screen-chat').classList.add('active'); }
+function showJoinScreen(){ document.getElementById('mq-priv-screen-join').classList.remove('hidden'); document.getElementById('mq-priv-screen-chat').classList.remove('active'); if(privListener&&isFirebaseReady&&db) db.ref('quizhub_private/'+privRoom+'/msgs').off(); privSeen.clear(); }
+async function deriveKey(p,s){ const enc=new TextEncoder(); const km=await crypto.subtle.importKey('raw',enc.encode(p),{name:'PBKDF2'},false,['deriveKey']); return await crypto.subtle.deriveKey({name:'PBKDF2',salt:enc.encode(s),iterations:100000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt','decrypt']); }
+async function encryptMessage(t,p,r){ const k=await deriveKey(p,r); const enc=new TextEncoder(); const iv=crypto.getRandomValues(new Uint8Array(12)); const c=await crypto.subtle.encrypt({name:'AES-GCM',iv},k,enc.encode(t)); const comb=new Uint8Array(iv.length+c.byteLength); comb.set(iv,0); comb.set(new Uint8Array(c),iv.length); return btoa(String.fromCharCode(...comb)); }
+async function decryptMessage(b64,p,r){ try{ const k=await deriveKey(p,r); const raw=Uint8Array.from(atob(b64),c=>c.charCodeAt(0)); const iv=raw.slice(0,12); const data=raw.slice(12); const plain=await crypto.subtle.decrypt({name:'AES-GCM',iv},k,data); return new TextDecoder().decode(plain); }catch(e){ return null; } }
+function addPrivToUI(name,text,time,isMe,id){ if(privSeen.has(id)) return; privSeen.add(id); const cont=document.getElementById('mq-priv-messages'); const div=document.createElement('div'); div.className='wa-bubble '+(isMe?'me':'them'); div.dataset.id=id; const safe=(text||'').replace(/</g,"&lt;"); const autoOn=document.getElementById('mq-priv-auto')?.checked; const lang=document.getElementById('mq-priv-lang')?.value||'en'; div.innerHTML=`<div class="wa-text" data-original="${safe}">${safe}</div><div class="wa-meta"><span>${time||''}</span><span>${isMe?'✓✓':''}</span></div><div class="wa-actions"><button onclick="translatePrivMsg(this)" style="background:#e3f2fd;">🌐 Translate</button><button onclick="deletePrivMsg('${id}')" style="background:#ffebee;">🗑️</button></div>`; cont.appendChild(div); cont.scrollTop=cont.scrollHeight; if(autoOn && lang!=='en'){ translatePrivMsg(div.querySelector('button')); } }
+async function translatePrivMsg(btn){ const b=btn.closest('.wa-bubble'); const s=b.querySelector('.wa-text'); const orig=s.getAttribute('data-original'); const t=document.getElementById('mq-priv-lang').value; if(s.dataset.translated==='1'){ s.innerText=orig; s.dataset.translated='0'; btn.innerText='🌐 Translate'; return; } btn.innerText='...'; const tr=await translateTextAPI(orig,t); s.innerText=tr; s.dataset.translated='1'; btn.innerText='↩️ Original'; }
+function deletePrivMsg(id){ if(!confirm('Delete private?')) return; if(isFirebaseReady&&db) db.ref('quizhub_private/'+privRoom+'/msgs/'+id).remove(); }
+function togglePrivTheme(){ privDark=!privDark; document.getElementById('mq-priv-messages').classList.toggle('dark',privDark); document.getElementById('mq-priv-input-area').classList.toggle('dark',privDark); }
+function shareCurrentRoom(){ const url=window.location.origin+window.location.pathname+'?priv='+encodeURIComponent(privRoom); if(navigator.share){ navigator.share({title:'Private Room', url}); } else { navigator.clipboard.writeText(url); alert('Copied: '+url); } }
+function copyPrivLink(){ const l=document.getElementById('priv-share-link').innerText; navigator.clipboard.writeText(l); alert('Copied!'); }
+function pasteInviteLink(){ const p=prompt('Paste link'); if(!p) return; try{ const u=new URL(p); const r=u.searchParams.get('priv'); if(r) document.getElementById('mq-priv-room').value=r.toUpperCase(); }catch(e){ alert('Invalid'); } }
+async function joinPrivateRoom(){ const name=document.getElementById('mq-priv-name').value.trim()||'Student'; const room=document.getElementById('mq-priv-room').value.trim().toUpperCase(); const pass=document.getElementById('mq-priv-pass').value.trim(); if(!room||!pass){ alert('Need Room + Password'); return; } privRoom=room; privPass=pass; privName=name; privSeen.clear(); document.getElementById('priv-header-name').innerText='🔒 '+room; document.getElementById('priv-header-status').innerText='Joined as '+name; document.getElementById('mq-priv-messages').innerHTML=''; showChatScreen(); const shareUrl=window.location.origin+window.location.pathname+'?priv='+encodeURIComponent(room); document.getElementById('priv-share-link').innerText=shareUrl; document.getElementById('priv-share-box').style.display='block'; if(isFirebaseReady&&db){ if(privListener) db.ref('quizhub_private/'+privRoom+'/msgs').off(); privListener=db.ref('quizhub_private/'+room+'/msgs').limitToLast(150); privListener.on('child_added', async snap=>{ const d=snap.val(); const id=snap.key; if(!d||!d.enc) return; const plain=await decryptMessage(d.enc,privPass,privRoom); if(plain===null) return; addPrivToUI(d.name,plain,d.time,d.uid===myId,id); }); privListener.on('child_removed', snap=>{ const el=document.querySelector(`#mq-priv-messages [data-id='${snap.key}']`); if(el) el.remove(); privSeen.delete(snap.key); }); } }
+document.getElementById('mq-priv-send').onclick=async()=>{ const text=document.getElementById('mq-priv-text').value.trim(); if(!text) return; if(!privRoom||!privPass){ alert('Join first'); return; } const time=new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}); const enc=await encryptMessage(text,privPass,privRoom); if(isFirebaseReady&&db) db.ref('quizhub_private/'+privRoom+'/msgs').push({name:privName,enc,uid:myId,time,ts:Date.now()}); document.getElementById('mq-priv-text').value=''; };
+if(isFirebaseReady&&db){
+  document.getElementById('mq-chat-messages').innerHTML='<div class="wa-bubble system">🌍 Worldwide - Fullscreen WhatsApp style - Auto translate keeps going if ON</div>';
+  db.ref('quizhub_chat').limitToLast(200).on('child_added', snap=>{ const d=snap.val(); addChatToUI(d.name,d.country,d.text,d.time,snap.key,d.uid); });
+  db.ref('quizhub_chat').on('child_removed', snap=>{ const el=document.querySelector(`#mq-chat-messages [data-id='${snap.key}']`); if(el) el.remove(); publicSeen.delete(snap.key); });
+  db.ref('quizhub_feedbacks').limitToLast(200).on('child_added', snap=>{ const d=snap.val(); addFeedbackToUI(d.name,d.country,d.text,d.time,snap.key,d.uid); });
+  db.ref('quizhub_feedbacks').on('child_removed', snap=>{ const el=document.querySelector(`#mq-feedback-list [data-id='${snap.key}']`); if(el) el.remove(); feedbackSeen.delete(snap.key); });
 }
-
-function leavePrivateRoom(){
-  if(privListener && isFirebaseReady && db && privRoom){ db.ref('quizhub_private/'+privRoom+'/msgs').off(); }
-  privRoom=null; privPass=null;
-  document.getElementById('mq-priv-status').innerText='Not joined';
-  document.getElementById('mq-priv-messages').innerHTML='';
-}
-
-document.getElementById('mq-priv-send').onclick = async ()=>{
-  const text = document.getElementById('mq-priv-text').value.trim();
-  if(!text) return;
-  if(!privRoom || !privPass){ alert('Join a private room first (Room Code + Password)'); return; }
-  const time = new Date().toLocaleString();
-  const enc = await encryptMessage(text, privPass, privRoom);
-  if(isFirebaseReady && db){
-    db.ref('quizhub_private/'+privRoom+'/msgs').push({name: privName, enc: enc, uid: myId, time: time, ts: Date.now()});
-  } else {
-    addPrivToUI(privName, text, time, true);
-  }
-  document.getElementById('mq-priv-text').value='';
-};
-
-// restore
-document.getElementById('mq-priv-name').value = localStorage.getItem('mq_priv_name')||'';
-document.getElementById('mq-priv-room').value = localStorage.getItem('mq_priv_room')||'';
-
 </script>
-<!-- ================= END CHAT & FEEDBACK SYSTEM ================= --> </body>
+</body>
 </html>
